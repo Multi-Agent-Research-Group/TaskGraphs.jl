@@ -47,7 +47,7 @@ Fields:
     timeout.
 """
 @with_kw struct AStarSC{C} <: AbstractAStarPlanner
-    logger::SolverLogger{C} = SolverLogger{C}(iteration_limit=1000)
+    logger::SolverLogger{C} = SolverLogger{C}(iteration_limit=1000000, runtime_limit=1000)
     replan::Bool            = false
 end
 search_trait(solver::AStarSC) = NonPrioritized()
@@ -220,7 +220,7 @@ function plan_path!(solver::AStarSC, pc_mapf::AbstractPC_MAPF, env::SearchEnv, n
 
     cache = get_cache(env)
     node_id = get_vtx_id(get_schedule(env),v)
-
+    # println("hi")
     reset_solver!(solver)
     cbs_env = build_env(solver, pc_mapf, env, node, VtxID(v)) #schedule_node, v)
     base_path = get_base_path(solver,env,cbs_env)
@@ -239,7 +239,7 @@ function plan_path!(solver::AStarSC, pc_mapf::AbstractPC_MAPF, env::SearchEnv, n
             path, cost = path_finder(solver, cbs_env, base_path)
         end
         if cost == get_infeasible_cost(cbs_env)
-            @log_info(-1,verbosity(solver),"A*: returned infeasible path for node ", string(schedule_node))
+            @log_info(-1,verbosity(solver),"A*: r1eturned infeasible path fosssr 1 node ", string(schedule_node))
             return false
         end
     end

@@ -606,7 +606,7 @@ function setup_replanning_experiments(base_problem_dir,base_results_dir)
         path_finder = DefaultAStarSC()
         set_iteration_limit!(path_finder,5000)
         primary_route_planner = CBSSolver(ISPS(path_finder))
-        set_iteration_limit!(primary_route_planner,1000)
+        set_iteration_limit!(primary_route_planner,5000)
         primary_planner = FullReplanner(
             solver = NBSSolver(path_planner=primary_route_planner),
             replanner = primary_replanner,

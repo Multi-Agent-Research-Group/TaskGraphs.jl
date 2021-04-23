@@ -1112,3 +1112,25 @@ function get_assignment_dict(assignment_matrix,N,M)
     end
     assignment_dict
 end
+
+export apply_assignment_dict
+
+function apply_assignment_dict!(sched::OperatingSchedule,assignment_dict,prob_spec)
+    tips = robot_tip_map(sched)
+    collect_nodes = Dict(get_object_id(n.node)=>n for n in get_nodes(sched) if matches_template(BOT_COLLECT,n))
+    for (robot_idx,itinerary) in assignment_dict
+        r = RobotID(robot_idx)
+        for object_idx in itinerary
+            tip = get_node(sched,tips[r])
+            o = ObjectID(object_idx)
+            c = collect_nodes[o]
+            add_edge!(sched,tip,c)
+            propagate_valid_ids!(sched,prob_spec)
+            # update tips
+            tips = robot_tip_map(sched)
+        end
+    end
+    process_schedule!(sched)
+    sched
+end
+
