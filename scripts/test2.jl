@@ -88,6 +88,8 @@ astar = isps.low_level_planner
 # set_verbosity!(astar, 0)
 
 reset_solver!(solver)
+set_runtime_limit!(solver, 10000)
+set_runtime_limit!(cbs, 10000)
 set_iteration_limit!(cbs, 10000000)
 set_verbosity!(solver, 0)
 # set_verbosity!(cbs, 0)
