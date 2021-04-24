@@ -1,6 +1,6 @@
 using TaskGraphs
 
-
+using Dates
 ## set up the environment
 using GraphUtils
 
@@ -72,10 +72,32 @@ solver = NBSSolver(
 # because it determines what cost model is used for the problem)
 prob = pctapf_problem(solver,spec,env,robot_ics)
 # solve the problem
-solution, cost = solve!(solver,prob)
-println(env.vtx_map)
-println(solution)
-println(cost)
-# check if the problem was solved to optimality
+# solution, cost = solve!(solver,prob)
+# println(env.vtx_map)
+# println(solution)
+# println(cost)
+# # check if the problem was solved to optimality
+# reset_solver!(solver)
+start_time = Dates.format(now(), "HH:MM:SS")
+println()
+cbs = solver.path_planner
+isps = cbs.low_level_planner
+astar = isps.low_level_planner
+# set_verbosity!(cbs, 0)
+# set_verbosity!(isps, 0)
+# set_verbosity!(astar, 0)
+
+reset_solver!(solver)
+set_iteration_limit!(cbs, 10000000)
+set_verbosity!(solver, 0)
+# set_verbosity!(cbs, 0)
+# set_verbosity!(isps, 0)
+# set_verbosity!(astar, 0)
+
+solve!(solver, prob)
+println()
+
+println(start_time)
+println(Dates.format(now(), "HH:MM:SS"))
 @show feasible_status(solver)
 @show optimal_status(solver)

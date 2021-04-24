@@ -239,7 +239,7 @@ function plan_path!(solver::AStarSC, pc_mapf::AbstractPC_MAPF, env::SearchEnv, n
             path, cost = path_finder(solver, cbs_env, base_path)
         end
         if cost == get_infeasible_cost(cbs_env)
-            @log_info(-1,verbosity(solver),"A*: r1eturned infeasible path fosssr 1 node ", string(schedule_node))
+            # @log_info(-1,verbosity(solver),"A*: r1eturned infeasible path fosssr 1 node ", string(schedule_node))
             return false
         end
     end
